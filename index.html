@@ -1,58 +1,231 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cartoon World</title>
-    <!-- CSS file ko link karne ke liye niche wali line zaroori hai -->
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Cartoon World - Watch amazing animated adventures, trending cartoon movies, and magical stories." />
+  <title>Cartoon World</title>
+
+  <!-- Google Font: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Tailwind Configuration -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Poppins', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              light: '#f3e8ff',
+              DEFAULT: '#9333ea', // Purple
+              dark: '#7e22ce',
+              accent: '#ec4899'   // Pink
+            }
+          },
+          animation: {
+            'float': 'float 6s ease-in-out infinite',
+            'spin-slow': 'spin 3s linear infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-20px)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- External Custom CSS -->
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
 
-    <header>
-        <h1>CARTOON WORLD</h1>
-    </header>
+<body class="font-sans bg-gray-50 text-gray-800 antialiased selection:bg-brand-accent selection:text-white">
 
-    <div class="container">
-        <!-- Card 1 -->
-        <div class="card">
-            <div class="card-img">🐱</div>
-            <div class="card-content">
-                <h2>Funny Cat</h2>
-                <a href="#" class="btn">Watch Now</a>
-            </div>
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="spinner mb-4"></div>
+    <h2 class="text-2xl font-bold text-brand-dark animate-pulse">Loading Cartoon World...</h2>
+  </div>
+
+  <!-- HEADER -->
+  <header class="fixed w-full top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm transition-all duration-300" id="navbar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        
+        <!-- Logo -->
+        <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
+          <span class="text-3xl">🎬</span>
+          <h1 class="font-extrabold text-2xl bg-clip-text text-transparent bg-gradient-to-r from-brand-dark to-brand-accent">
+            Cartoon World
+          </h1>
         </div>
 
-        <!-- Card 2 -->
-        <div class="card">
-            <div class="card-img">🚀</div>
-            <div class="card-content">
-                <h2>Space Hero</h2>
-                <a href="#" class="btn">Watch Now</a>
-            </div>
-        </div>
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex space-x-8 items-center">
+          <a href="#" class="text-gray-600 hover:text-brand-DEFAULT font-medium transition-colors">Home</a>
+          <a href="#trending" class="text-gray-600 hover:text-brand-DEFAULT font-medium transition-colors">Trending</a>
+          <a href="#features" class="text-gray-600 hover:text-brand-DEFAULT font-medium transition-colors">Features</a>
+          <button class="bg-brand-DEFAULT hover:bg-brand-dark text-white px-6 py-2.5 rounded-full font-semibold transition-all transform hover:scale-105 shadow-md shadow-brand-DEFAULT/30">
+            Sign In
+          </button>
+        </nav>
 
-        <!-- Card 3 -->
-        <div class="card">
-            <div class="card-img">🍕</div>
-            <div class="card-content">
-                <h2>Pizza Boy</h2>
-                <a href="#" class="btn">Watch Now</a>
-            </div>
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden flex items-center">
+          <button id="mobile-menu-btn" class="text-gray-600 hover:text-brand-DEFAULT focus:outline-none p-2">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
         </div>
-         <!-- Card 4 -->
-        <div class="card">
-            <div class="card-img">🏝️</div>
-            <div class="card-content">
-                <h2>Island Explorer</h2>
-                <a href="#" class="btn">Watch Now</a>
-            </div>
-        </div>
+      </div>
     </div>
 
-    <footer>
-        <p>Made for Cartoon Lovers!</p>
-    </footer>
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg">
+      <div class="px-4 pt-2 pb-6 space-y-2">
+        <a href="#" class="block px-3 py-3 text-base font-medium text-gray-700 hover:text-brand-DEFAULT hover:bg-brand-light rounded-md">Home</a>
+        <a href="#trending" class="block px-3 py-3 text-base font-medium text-gray-700 hover:text-brand-DEFAULT hover:bg-brand-light rounded-md">Trending</a>
+        <a href="#features" class="block px-3 py-3 text-base font-medium text-gray-700 hover:text-brand-DEFAULT hover:bg-brand-light rounded-md">Features</a>
+        <div class="pt-4">
+          <button class="w-full bg-brand-DEFAULT text-white px-6 py-3 rounded-xl font-semibold shadow-md">
+            Sign In
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
 
+  <!-- HERO SECTION -->
+  <section class="hero-bg min-h-[90vh] flex items-center justify-center pt-20 px-4 relative">
+    <div class="blob bg-purple-500 w-96 h-96 rounded-full top-10 left-10"></div>
+    <div class="blob bg-pink-500 w-80 h-80 rounded-full bottom-10 right-10"></div>
+
+    <div class="max-w-4xl mx-auto text-center relative z-10">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 text-white font-medium text-sm mb-8">
+        <span class="text-yellow-300">✨</span> Unlimited Cartoon Entertainment
+      </div>
+
+      <h2 class="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight drop-shadow-lg">
+        Enter The Magical <br/> World Of Animation
+      </h2>
+
+      <p class="text-lg md:text-xl text-purple-100 mb-10 max-w-2xl mx-auto leading-relaxed">
+        Discover trending cartoons, magical adventures, funny characters, and cinematic animated stories designed for all ages.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <button class="w-full sm:w-auto px-8 py-4 bg-white text-brand-dark font-bold rounded-full hover:bg-gray-100 transition-all transform hover:-translate-y-1 shadow-xl flex items-center justify-center gap-2 text-lg">
+          <span class="text-brand-accent">▶</span> Watch Now
+        </button>
+        <button class="w-full sm:w-auto px-8 py-4 bg-transparent border-2 border-white/50 text-white font-bold rounded-full hover:bg-white/10 transition-all transform hover:-translate-y-1 text-lg">
+          Explore More
+        </button>
+      </div>
+      
+      <div class="mt-16 text-7xl animate-float cursor-default selection:bg-transparent">
+        🦄 🚀 🌟
+      </div>
+    </div>
+  </section>
+
+  <!-- TRENDING SECTION -->
+  <section id="trending" class="py-24 px-4 bg-gray-50">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">🔥 Trending Cartoons</h2>
+        <p class="text-gray-500 text-lg max-w-2xl mx-auto">Popular animated adventures loved worldwide. Dive into our top picks for the week!</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- CARD 1 -->
+        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group">
+          <div class="w-20 h-20 bg-orange-100 rounded-2xl flex items-center justify-center text-4xl mb-6 group-hover:scale-110 group-hover:rotate-6 transition-transform shadow-inner">🐱</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Cat Adventure</h3>
+          <p class="text-gray-500 mb-6 text-sm leading-relaxed">A hilarious journey of a brave little cat exploring magical lands and making unlikely friends.</p>
+          <a href="#" class="inline-flex items-center justify-center w-full py-3 bg-brand-light text-brand-dark font-semibold rounded-xl group-hover:bg-brand-DEFAULT group-hover:text-white transition-colors">Watch Now</a>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group">
+          <div class="w-20 h-20 bg-blue-100 rounded-2xl flex items-center justify-center text-4xl mb-6 group-hover:scale-110 group-hover:-rotate-6 transition-transform shadow-inner">🚀</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Space Journey</h3>
+          <p class="text-gray-500 mb-6 text-sm leading-relaxed">Travel across galaxies and discover futuristic cartoon worlds filled with alien technology.</p>
+          <a href="#" class="inline-flex items-center justify-center w-full py-3 bg-brand-light text-brand-dark font-semibold rounded-xl group-hover:bg-brand-DEFAULT group-hover:text-white transition-colors">Watch Now</a>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group">
+          <div class="w-20 h-20 bg-red-100 rounded-2xl flex items-center justify-center text-4xl mb-6 group-hover:scale-110 group-hover:rotate-6 transition-transform shadow-inner">🍕</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Pizza Fun</h3>
+          <p class="text-gray-500 mb-6 text-sm leading-relaxed">A funny pizza-making adventure packed with comedy, excitement, and lots of cheese!</p>
+          <a href="#" class="inline-flex items-center justify-center w-full py-3 bg-brand-light text-brand-dark font-semibold rounded-xl group-hover:bg-brand-DEFAULT group-hover:text-white transition-colors">Watch Now</a>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group">
+          <div class="w-20 h-20 bg-green-100 rounded-2xl flex items-center justify-center text-4xl mb-6 group-hover:scale-110 group-hover:-rotate-6 transition-transform shadow-inner">🏝️</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Tropical Island</h3>
+          <p class="text-gray-500 mb-6 text-sm leading-relaxed">Explore hidden treasures and magical mysteries on lush, animated tropical islands.</p>
+          <a href="#" class="inline-flex items-center justify-center w-full py-3 bg-brand-light text-brand-dark font-semibold rounded-xl group-hover:bg-brand-DEFAULT group-hover:text-white transition-colors">Watch Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURE SECTION -->
+  <section id="features" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="text-center p-8 rounded-3xl bg-gray-50 hover:bg-brand-light transition-colors duration-300">
+          <div class="text-5xl mb-4">📺</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">4K Animation</h3>
+          <p class="text-gray-500">Ultra HD cartoon streaming experience on all your favorite devices.</p>
+        </div>
+        <div class="text-center p-8 rounded-3xl bg-gray-50 hover:bg-brand-light transition-colors duration-300">
+          <div class="text-5xl mb-4">🎞️</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">1000+ Episodes</h3>
+          <p class="text-gray-500">Unlimited animated adventures anytime. Fresh content added weekly.</p>
+        </div>
+        <div class="text-center p-8 rounded-3xl bg-gray-50 hover:bg-brand-light transition-colors duration-300">
+          <div class="text-5xl mb-4">🌍</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">Global Trending</h3>
+          <p class="text-gray-500">Watch the world's most loved cartoons from top animation studios.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-gray-900 py-12 text-center">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-4xl mb-6">🎬</div>
+      <h3 class="text-2xl font-bold text-white mb-4">Cartoon World</h3>
+      <p class="text-gray-400 mb-8 max-w-md mx-auto">Your ultimate destination for magical animated adventures and timeless cartoon classics.</p>
+      
+      <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-gray-500 text-sm">
+          © 2026 Cartoon World • Designed With <span class="text-red-500">❤️</span>
+        </p>
+        <div class="flex gap-4 text-sm text-gray-500">
+          <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+          <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- External JavaScript Logic -->
+  <script src="script.js"></script>
 </body>
 </html>
